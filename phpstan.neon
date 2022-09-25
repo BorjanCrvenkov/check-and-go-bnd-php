@@ -1,0 +1,20 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+
+    ignoreErrors:
+    		- '#Access to an undefined property App\\Http\\Resources\\[a-zA-Z]+::\$[a-z\_a-z]#'
+    		- '#Call to an undefined method Laravel\\Sanctum\\Contracts\\HasAbilities::delete\(\)#'
+    		- '#Cannot access property \$[a-z\_A-Z]+ on object\|string#'
+    		- '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder<Illuminate\\Database\\Eloquent\\Model>::allowedFilters\(\)#'
+    		- '#Parameter \#[0-9] \$[a-zA-z] of class [a-zA-z]\\[a-zA-z]\\[a-zA-z] constructor expects [a-zA-z]\\[a-zA-z]\\[a-zA-z], App\\Models\\BaseModel|App\\Models\\BaseUserModel given#'
+
+    paths:
+        - app
+
+    level: 6
+
+    checkMissingIterableValueType: false
+
+    checkGenericClassInNonGenericObjectType: false
