@@ -1,4 +1,4 @@
-<?php /** @noinspection ALL */
+<?php
 
 namespace App\Models;
 
@@ -111,8 +111,4 @@ class User extends BaseUserModel
     {
         return $this->hasMany(UserPhoneNumber::class, 'user_id');
     }
-
-
-
-
 }

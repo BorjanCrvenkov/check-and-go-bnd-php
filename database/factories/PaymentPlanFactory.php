@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\PaymentFrequency;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PaymentPlan>
+ * @extends Factory
  */
 class PaymentPlanFactory extends Factory
 {
@@ -14,10 +16,13 @@ class PaymentPlanFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    #[ArrayShape(['name' => "string", 'description' => "string", 'payment_frequency_id' => "mixed", 'price' => "int"])] public function definition(): array
     {
         return [
-            //
+            'name'                 => $this->faker->word(),
+            'description'          => $this->faker->paragraph(),
+            'payment_frequency_id' => PaymentFrequency::factory(),
+            'price'                => $this->faker->numberBetween(1000, 10000),
         ];
     }
 }

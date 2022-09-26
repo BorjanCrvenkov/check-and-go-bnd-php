@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\UserBusinessReservation;
+use App\Models\UserTableReservation;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class UserBusinessReservationPolicy
+class UserTableReservationPolicy
 {
     use HandlesAuthorization;
 
@@ -25,10 +25,10 @@ class UserBusinessReservationPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\UserBusinessReservation  $userBusinessReservation
+     * @param  \App\Models\UserTableReservation  $userBusinessReservation
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, UserBusinessReservation $userBusinessReservation)
+    public function view(User $user, UserTableReservation $userBusinessReservation)
     {
         //
     }
@@ -48,10 +48,10 @@ class UserBusinessReservationPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\UserBusinessReservation  $userBusinessReservation
+     * @param  \App\Models\UserTableReservation  $userBusinessReservation
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, UserBusinessReservation $userBusinessReservation)
+    public function update(User $user, UserTableReservation $userBusinessReservation)
     {
         //
     }
@@ -60,10 +60,10 @@ class UserBusinessReservationPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\UserBusinessReservation  $userBusinessReservation
+     * @param  \App\Models\UserTableReservation  $userBusinessReservation
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, UserBusinessReservation $userBusinessReservation)
+    public function delete(User $user, UserTableReservation $userBusinessReservation)
     {
         //
     }
@@ -72,10 +72,10 @@ class UserBusinessReservationPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\UserBusinessReservation  $userBusinessReservation
+     * @param  \App\Models\UserTableReservation  $userBusinessReservation
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, UserBusinessReservation $userBusinessReservation)
+    public function restore(User $user, UserTableReservation $userBusinessReservation)
     {
         //
     }
@@ -84,10 +84,10 @@ class UserBusinessReservationPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\UserBusinessReservation  $userBusinessReservation
+     * @param  \App\Models\UserTableReservation  $userBusinessReservation
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, UserBusinessReservation $userBusinessReservation)
+    public function forceDelete(User $user, UserTableReservation $userBusinessReservation)
     {
         //
     }

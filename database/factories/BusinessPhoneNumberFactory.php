@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Business;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\BusinessPhoneNumber>
+ * @extends Factory
  */
 class BusinessPhoneNumberFactory extends Factory
 {
@@ -14,10 +16,11 @@ class BusinessPhoneNumberFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    #[ArrayShape(['business_id' => "mixed", 'phone_number' => "string"])] public function definition(): array
     {
         return [
-            //
+            'business_id'  => Business::factory(),
+            'phone_number' => $this->faker->phoneNumber(),
         ];
     }
 }

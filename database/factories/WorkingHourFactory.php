@@ -3,9 +3,10 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\WorkingHour>
+ * @extends Factory
  */
 class WorkingHourFactory extends Factory
 {
@@ -14,10 +15,12 @@ class WorkingHourFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    #[ArrayShape(['day' => "string", 'opening_time' => "\DateTime", 'closing_time' => "\DateTime"])] public function definition(): array
     {
         return [
-            //
+            'day'          => $this->faker->dayOfWeek(),
+            'opening_time' => $this->faker->dateTimeInInterval('-4 hours', '+8 hours'),
+            'closing_time' => $this->faker->dateTimeInInterval('-4 hours', '+8 hours'),
         ];
     }
 }

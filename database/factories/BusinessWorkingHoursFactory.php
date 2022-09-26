@@ -2,10 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\Business;
+use App\Models\WorkingHour;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\BusinessWorkingHours>
+ * @extends Factory
  */
 class BusinessWorkingHoursFactory extends Factory
 {
@@ -14,10 +17,11 @@ class BusinessWorkingHoursFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    #[ArrayShape(['business_id' => "mixed", 'working_hours_id' => "mixed"])] public function definition(): array
     {
         return [
-            //
+            'business_id'      => Business::factory(),
+            'working_hours_id' => WorkingHour::factory(),
         ];
     }
 }

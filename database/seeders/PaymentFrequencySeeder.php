@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\PaymentFrequency;
 use Illuminate\Database\Seeder;
 
 class PaymentFrequencySeeder extends Seeder
@@ -12,8 +12,15 @@ class PaymentFrequencySeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        //
+        PaymentFrequency::factory()
+            ->count(4)
+            ->sequence(
+                ['name' => 'Monthly'],
+                ['name' => 'Every three months'],
+                ['name' => 'Every six months'],
+                ['name' => 'Yearly']
+            )->create();
     }
 }

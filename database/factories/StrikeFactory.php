@@ -2,10 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\Reservation;
+use App\Models\Review;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Strike>
+ * @extends Factory
  */
 class StrikeFactory extends Factory
 {
@@ -14,10 +17,13 @@ class StrikeFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    #[ArrayShape(['description' => "string", 'review_id' => "mixed", 'reservation' => "mixed"])] public function definition(): array
     {
+        $randNum = rand();
         return [
-            //
+            'description' => $this->faker->paragraph(),
+            'review_id'   => ($randNum % 2 == 0) ? Review::factory() : null,
+            'reservation' => ($randNum % 2 == 1) ? Reservation::factory() : null,
         ];
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class UserStrikeSeeder extends Seeder
@@ -12,7 +11,7 @@ class UserStrikeSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         //
     }

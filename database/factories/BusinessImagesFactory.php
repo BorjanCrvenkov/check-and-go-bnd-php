@@ -2,10 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\Business;
+use App\Models\Image;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\BusinessImages>
+ * @extends Factory
  */
 class BusinessImagesFactory extends Factory
 {
@@ -14,10 +17,11 @@ class BusinessImagesFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    #[ArrayShape(['business_id' => "mixed", 'image_id' => "mixed"])] public function definition(): array
     {
         return [
-            //
+            'business_id' => Business::factory(),
+            'image_id'    => Image::factory(),
         ];
     }
 }

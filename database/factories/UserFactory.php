@@ -1,12 +1,16 @@
 <?php
 
+
 namespace Database\Factories;
 
+use App\Models\Image;
+use App\Models\PaymentPlan;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends Factory
  */
 class UserFactory extends Factory
 {
@@ -15,14 +19,18 @@ class UserFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    #[ArrayShape(['first_name' => "string", 'last_name' => "string", 'date_of_birth' => "\DateTime", 'embg' => "string", 'email' => "string", 'password' => "string", 'image_id' => "mixed", 'role_id' => "mixed", 'payment_plan_id' => "mixed"])] public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'first_name'      => $this->faker->firstName(),
+            'last_name'       => $this->faker->lastName(),
+            'date_of_birth'   => $this->faker->dateTimeThisCentury(),
+            'embg'            => $this->faker->numberBetween(0, 1000000000000),
+            'email'           => $this->faker->unique()->email(),
+            'password'        => 'Password!23',
+            'image_id'        => Image::factory(),
+            'role_id'         => Role::factory(),
+            'payment_plan_id' => PaymentPlan::factory(),
         ];
     }
 
@@ -31,10 +39,62 @@ class UserFactory extends Factory
      *
      * @return static
      */
-    public function unverified()
+    public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    /**
+     *
+     * @return static
+     */
+    public function admin(): static
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role_id' => Role::where('name', '=', Role::ADMINISTRATOR)->first()->getKey()
+            ];
+        });
+    }
+
+    /**
+     *
+     * @return static
+     */
+    public function business(): static
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role_id' => Role::where('name', '=', Role::BUSINESS)->first()->getKey()
+            ];
+        });
+    }
+
+    /**
+     *
+     * @return static
+     */
+    public function employee(): static
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role_id' => Role::where('name', '=', Role::EMPLOYEE)->first()->getKey()
+            ];
+        });
+    }
+
+    /**
+     *
+     * @return static
+     */
+    public function customer(): static
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role_id' => Role::where('name', '=', Role::CUSTOMER)->first()->getKey()
+            ];
+        });
     }
 }
