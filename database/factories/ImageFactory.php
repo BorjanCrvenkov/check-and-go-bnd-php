@@ -3,9 +3,10 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Image>
+ * @extends Factory
  */
 class ImageFactory extends Factory
 {
@@ -14,10 +15,11 @@ class ImageFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    #[ArrayShape(['link' => "mixed", 'extension' => "string"])] public function definition(): array
     {
         return [
-            //
+            'link'      => $this->faker->filePath(),
+            'extension' => '.jpg',
         ];
     }
 }

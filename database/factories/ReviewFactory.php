@@ -3,9 +3,10 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Review>
+ * @extends Factory
  */
 class ReviewFactory extends Factory
 {
@@ -14,10 +15,11 @@ class ReviewFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    #[ArrayShape(['body' => "string", 'rating' => "float"])] public function definition(): array
     {
         return [
-            //
+            'body'   => $this->faker->paragraph(),
+            'rating' => $this->faker->randomFloat(2, 0, 10),
         ];
     }
 }

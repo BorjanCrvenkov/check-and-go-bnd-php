@@ -2,10 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\Image;
+use App\Models\Menu;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\MenuItem>
+ * @extends Factory
  */
 class MenuItemFactory extends Factory
 {
@@ -14,10 +17,14 @@ class MenuItemFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    #[ArrayShape(['name' => "string", 'description' => "string", 'price' => "int", 'image_id' => "mixed", 'menu_id' => "mixed"])] public function definition(): array
     {
         return [
-            //
+            'name'        => $this->faker->word(),
+            'description' => $this->faker->paragraph(),
+            'price'       => $this->faker->numberBetween(50, 10000),
+            'image_id'    => Image::factory(),
+            'menu_id'     => Menu::factory(),
         ];
     }
 }

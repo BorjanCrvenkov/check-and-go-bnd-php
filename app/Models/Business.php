@@ -1,11 +1,19 @@
-<?php /** @noinspection ALL */
+<?php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Business extends BaseModel
 {
+    /**
+     * @return BelongsTo
+     */
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'business_id');
+    }
 
     /**
      * @return HasMany
@@ -44,7 +52,7 @@ class Business extends BaseModel
      */
     public function reservations(): HasMany
     {
-        return $this->hasMany(UserBusinessReservation::class, 'business_id');
+        return $this->hasMany(UserTableReservation::class, 'business_id');
     }
 
     /**
@@ -77,5 +85,21 @@ class Business extends BaseModel
     public function tables(): HasMany
     {
         return $this->hasMany(Table::class, 'business_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function socialMediaLinks(): HasMany
+    {
+        return $this->hasMany(BusinessSocialMediaLink::class, 'business_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function phoneNumbers(): hasMany
+    {
+        return $this->hasMany(UserPhoneNumber::class, 'business_id');
     }
 }

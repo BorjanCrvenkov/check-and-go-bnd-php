@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_favourite_business', function (Blueprint $table) {
+        Schema::create('user_favourite_businesses', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->nullable();
             $table->bigInteger('business_id')->nullable();
@@ -22,6 +21,7 @@ return new class extends Migration
             $table->smallInteger('status')->default(0);
             $table->softDeletes();
             $table->timestamps();
+            $table->unique(['user_id', 'business_id'], 'user_favourite_businesses_unique');
         });
     }
 

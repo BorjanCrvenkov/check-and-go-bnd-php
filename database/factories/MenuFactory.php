@@ -3,9 +3,10 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Menu>
+ * @extends Factory
  */
 class MenuFactory extends Factory
 {
@@ -14,10 +15,10 @@ class MenuFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    #[ArrayShape(['name' => "string"])] public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->word(),
         ];
     }
 }

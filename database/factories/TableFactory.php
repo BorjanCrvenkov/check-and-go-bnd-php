@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Business;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Table>
+ * @extends Factory
  */
 class TableFactory extends Factory
 {
@@ -14,10 +16,12 @@ class TableFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    #[ArrayShape(['name' => "string", 'number_of_seats' => "int", 'business_id' => "mixed"])] public function definition(): array
     {
         return [
-            //
+            'name'            => $this->faker->word() . $this->faker->randomNumber(),
+            'number_of_seats' => $this->faker->numberBetween(1, 7),
+            'business_id'     => Business::factory(),
         ];
     }
 }

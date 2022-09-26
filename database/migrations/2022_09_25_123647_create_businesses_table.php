@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,14 +12,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('businesses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description');
-            $table->timestamp('start_time');
-            $table->timestamp('end_time');
-            $table->bigInteger('business_id')->nullable();
-            $table->foreign('business_id')->references('id')->on('businesses');
+            $table->string('address');
+            $table->integer('discount')->default(0);
+            $table->double('rating');
+            $table->bigInteger('owner_id')->nullable();
+            $table->foreign('owner_id')->references('id')->on('users');
             $table->smallInteger('status')->default(0);
             $table->softDeletes();
             $table->timestamps();
@@ -34,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('businesses');
     }
 };

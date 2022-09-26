@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class UserBusinessReservation extends BaseModel
+class UserTableReservation extends BaseModel
 {
     /**
      * @return BelongsTo
@@ -17,9 +17,9 @@ class UserBusinessReservation extends BaseModel
     /**
      * @return BelongsTo
      */
-    public function business(): BelongsTo
+    public function table(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Table::class);
     }
 
     /**
@@ -27,6 +27,6 @@ class UserBusinessReservation extends BaseModel
      */
     public function reservation(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Reservation::class);
     }
 }

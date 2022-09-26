@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder
@@ -12,8 +12,16 @@ class RoleSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        //
+        Role::factory()
+            ->count(5)
+            ->sequence(
+                ['name' => Role::ADMINISTRATOR],
+                ['name' => Role::BUSINESS],
+                ['name' => Role::EMPLOYEE],
+                ['name' => Role::CUSTOMER],
+                ['name' => Role::DEFAULT],
+            )->create();
     }
 }

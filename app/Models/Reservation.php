@@ -1,4 +1,4 @@
-<?php /** @noinspection ALL */
+<?php
 
 namespace App\Models;
 
@@ -9,9 +9,8 @@ class Reservation extends BaseModel
     /**
      * @return BelongsTo
      */
-    public function userBusinessReservation(): belongsTo
+    public function userTableReservation(): belongsTo
     {
-        return $this->belongsTo(UserBusinessReservation::class);
+        return $this->belongsTo(UserTableReservation::class);
     }
-
 }
