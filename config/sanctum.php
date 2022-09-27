@@ -46,7 +46,7 @@ return [
     |
     */
 
-    'expiration' => null,
+    'expiration' => env('AUTHENTICATION_TOKEN_LIFESPAN_MINUTES'),
 
     /*
     |--------------------------------------------------------------------------
