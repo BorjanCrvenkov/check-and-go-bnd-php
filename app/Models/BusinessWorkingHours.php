@@ -17,8 +17,8 @@ class BusinessWorkingHours extends BaseModel
     /**
      * @return BelongsTo
      */
-    public function workingHours(): BelongsTo
+    public function workingHour(): BelongsTo
     {
-        return $this->belongsTo(WorkingHour::class);
+        return $this->belongsTo(WorkingHour::class, 'working_hours_id');
     }
 }

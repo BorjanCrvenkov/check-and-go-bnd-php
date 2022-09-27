@@ -27,6 +27,6 @@ class UserReviewBusiness extends BaseModel
      */
     public function business(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Business::class);
     }
 }

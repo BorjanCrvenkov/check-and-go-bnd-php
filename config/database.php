@@ -78,6 +78,21 @@ return [
             'sslmode' => 'prefer',
         ],
 
+        'pgsql_test' => [
+            'driver' => 'pgsql',
+            'url' => env('DATABASE_URL'),
+            'host' => 'pgsql_test',
+            'port' => '5432',
+            'database' => 'check_and_go_test',
+            'username' => 'sail',
+            'password' => 'password',
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => 'prefer',
+        ],
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),

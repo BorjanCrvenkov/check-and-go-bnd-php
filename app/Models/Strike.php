@@ -11,7 +11,7 @@ class Strike extends BaseModel
      */
     public function reservation(): HasOne
     {
-        return $this->hasOne(Reservation::class);
+        return $this->hasOne(Reservation::class, 'id', 'reservation_id');
     }
 
     /**
@@ -19,6 +19,6 @@ class Strike extends BaseModel
      */
     public function review(): HasOne
     {
-        return $this->hasOne(Review::class);
+        return $this->hasOne(Review::class, 'id', 'review_id');
     }
 }

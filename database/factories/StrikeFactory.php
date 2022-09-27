@@ -17,13 +17,13 @@ class StrikeFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    #[ArrayShape(['description' => "string", 'review_id' => "mixed", 'reservation' => "mixed"])] public function definition(): array
+    #[ArrayShape(['description' => "string", 'review_id' => "mixed", 'reservation_id' => "mixed"])] public function definition(): array
     {
         $randNum = rand();
         return [
             'description' => $this->faker->paragraph(),
             'review_id'   => ($randNum % 2 == 0) ? Review::factory() : null,
-            'reservation' => ($randNum % 2 == 1) ? Reservation::factory() : null,
+            'reservation_id' => ($randNum % 2 == 1) ? Reservation::factory() : null,
         ];
     }
 }

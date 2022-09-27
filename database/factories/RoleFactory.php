@@ -18,7 +18,7 @@ class RoleFactory extends Factory
     #[ArrayShape(['name' => "string"])] public function definition(): array
     {
         return [
-            'name' => $this->faker->word(),
+            'name' => $this->faker->word() .$this->faker->numberBetween(0, 100000),
         ];
     }
 }

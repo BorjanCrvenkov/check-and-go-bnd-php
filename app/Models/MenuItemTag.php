@@ -11,14 +11,14 @@ class MenuItemTag extends BaseModel
      */
     public function menuItem(): HasOne
     {
-        return $this->hasOne(MenuItem::class);
+        return $this->hasOne(MenuItem::class, 'id', 'menu_item_id');
     }
 
     /**
      * @return HasOne
      */
-    public function Tag(): HasOne
+    public function tag(): HasOne
     {
-        return $this->hasOne(Tag::class);
+        return $this->hasOne(Tag::class, 'id', 'tag_id');
     }
 }

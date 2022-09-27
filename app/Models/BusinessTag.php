@@ -17,7 +17,7 @@ class BusinessTag extends BaseModel
     /**
      * @return BelongsTo
      */
-    public function ta(): BelongsTo
+    public function tag(): BelongsTo
     {
         return $this->belongsTo(Tag::class);
     }
