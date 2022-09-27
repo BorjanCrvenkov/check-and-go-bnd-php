@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->bigInteger('business_id');
+            $table->bigInteger('business_id')->nullable();
             $table->foreign('business_id')->references('id')->on('businesses');
             $table->smallInteger('status')->default(0);
             $table->softDeletes();

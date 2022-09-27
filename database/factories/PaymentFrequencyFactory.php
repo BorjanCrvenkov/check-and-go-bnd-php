@@ -18,7 +18,7 @@ class PaymentFrequencyFactory extends Factory
     #[ArrayShape(['name' => "string"])] public function definition(): array
     {
         return [
-            'name' => $this->faker->word(),
+            'name' => $this->faker->unique()->word() .$this->faker->numberBetween(0, 10000),
         ];
     }
 }

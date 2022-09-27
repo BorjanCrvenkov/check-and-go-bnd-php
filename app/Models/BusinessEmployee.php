@@ -19,7 +19,7 @@ class BusinessEmployee extends BaseModel
      */
     public function employee(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'employee_id');
     }
 
 }

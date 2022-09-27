@@ -17,10 +17,10 @@ class BusinessEmployeeFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    #[ArrayShape(['user_id' => "mixed", 'business_id' => "mixed"])] public function definition(): array
+    #[ArrayShape(['employee_id' => "mixed", 'business_id' => "mixed"])] public function definition(): array
     {
         return [
-            'user_id'     => User::factory(),
+            'employee_id'     => User::factory(),
             'business_id' => Business::factory(),
         ];
     }

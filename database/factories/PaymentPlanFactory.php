@@ -19,7 +19,7 @@ class PaymentPlanFactory extends Factory
     #[ArrayShape(['name' => "string", 'description' => "string", 'payment_frequency_id' => "mixed", 'price' => "int"])] public function definition(): array
     {
         return [
-            'name'                 => $this->faker->word(),
+            'name'                 => $this->faker->word() .$this->faker->numberBetween(0, 100000),
             'description'          => $this->faker->paragraph(),
             'payment_frequency_id' => PaymentFrequency::factory(),
             'price'                => $this->faker->numberBetween(1000, 10000),

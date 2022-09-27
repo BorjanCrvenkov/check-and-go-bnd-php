@@ -19,7 +19,7 @@ class EventFactory extends Factory
     #[ArrayShape(['name' => "string", 'description' => "array|string", 'start_time' => "\Illuminate\Support\Carbon", 'end_time' => "\Illuminate\Support\Carbon", 'business_id' => "mixed"])] public function definition(): array
     {
         return [
-            'name'        => $this->faker->word(),
+            'name'        => $this->faker->word() .$this->faker->numberBetween(0, 100000),
             'description' => $this->faker->paragraphs(2, true),
             'start_time'  => $this->faker->dateTimeThisYear(),
             'end_time'    => $this->faker->dateTimeThisYear(),

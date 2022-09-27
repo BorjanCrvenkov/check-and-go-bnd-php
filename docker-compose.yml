@@ -42,6 +42,27 @@ services:
             test: ["CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}"]
             retries: 3
             timeout: 5s
+
+    pgsql_test:
+        image: 'postgres:14'
+        ports:
+            - '5433:5432'
+        env_file:
+            - .env.testing
+        environment:
+            PGPASSWORD: 'password'
+            POSTGRES_DB: 'check_and_go_test'
+            POSTGRES_USER: 'sail'
+            POSTGRES_PASSWORD: 'password'
+        volumes:
+            - 'sail-pgsql:/var/lib/postgresql-test/data'
+            - './vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
+        networks:
+            - sail
+        healthcheck:
+            test: ["CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}"]
+            retries: 3
+            timeout: 5s
 networks:
     sail:
         driver: bridge

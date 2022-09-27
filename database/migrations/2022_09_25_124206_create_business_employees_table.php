@@ -14,14 +14,14 @@ return new class extends Migration {
     {
         Schema::create('business_employees', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->nullable();
+            $table->bigInteger('employee_id')->nullable();
             $table->bigInteger('business_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('employee_id')->references('id')->on('users');
             $table->foreign('business_id')->references('id')->on('businesses');
             $table->smallInteger('status')->default(0);
             $table->softDeletes();
             $table->timestamps();
-            $table->unique(['user_id', 'business_id'], 'business_employees_unique');
+            $table->unique(['employee_id', 'business_id'], 'business_employees_unique');
         });
     }
 

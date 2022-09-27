@@ -12,7 +12,7 @@ class Business extends BaseModel
      */
     public function owner(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'business_id');
+        return $this->belongsTo(User::class, 'owner_id');
     }
 
     /**
@@ -45,14 +45,6 @@ class Business extends BaseModel
     public function employees(): HasMany
     {
         return $this->hasMany(BusinessEmployee::class, 'business_id');
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function reservations(): HasMany
-    {
-        return $this->hasMany(UserTableReservation::class, 'business_id');
     }
 
     /**
@@ -100,6 +92,18 @@ class Business extends BaseModel
      */
     public function phoneNumbers(): hasMany
     {
-        return $this->hasMany(UserPhoneNumber::class, 'business_id');
+        return $this->hasMany(BusinessPhoneNumber::class, 'business_id');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function reservations(): mixed
+    {
+        return Business::where('businesses.id', '=', $this->getKey())
+            ->join('tables', 'businesses.id', '=', 'tables.business_id')
+            ->join('user_table_reservations', 'tables.id', '=', 'user_table_reservations.table_id')
+            ->join('reservations', 'user_table_reservations.reservation_id', '=', 'reservations.id')
+            ->select('reservations.*')->get();
     }
 }

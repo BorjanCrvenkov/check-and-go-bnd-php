@@ -20,7 +20,7 @@ class MenuItemFactory extends Factory
     #[ArrayShape(['name' => "string", 'description' => "string", 'price' => "int", 'image_id' => "mixed", 'menu_id' => "mixed"])] public function definition(): array
     {
         return [
-            'name'        => $this->faker->word(),
+            'name'        => $this->faker->word() .$this->faker->numberBetween(0, 100000),
             'description' => $this->faker->paragraph(),
             'price'       => $this->faker->numberBetween(50, 10000),
             'image_id'    => Image::factory(),

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Business;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -15,10 +16,11 @@ class MenuFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    #[ArrayShape(['name' => "string"])] public function definition(): array
+    #[ArrayShape(['name' => "string", 'business_id' => "mixed"])] public function definition(): array
     {
         return [
-            'name' => $this->faker->word(),
+            'name'        => $this->faker->word() . $this->faker->numberBetween(0, 100000),
+            'business_id' => Business::factory(),
         ];
     }
 }
