@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 class StoreImageRequest extends FormRequest
 {
@@ -11,9 +12,9 @@ class StoreImageRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +22,10 @@ class StoreImageRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['file' => "string"])] public function rules(): array
     {
         return [
-            //
+            'file' => 'required|mimes:jpeg,jpg,png,pdf',
         ];
     }
 }

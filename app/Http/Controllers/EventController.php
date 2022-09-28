@@ -2,85 +2,70 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Event\EventCollection;
+use App\Http\Resources\Event\EventResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\Event;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
+use App\Services\Implementation\EventService;
+use Illuminate\Http\JsonResponse;
 
 class EventController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Event $model
+     * @param EventService $eventService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(Event $model, public readonly EventService $eventService, public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'event';
+        parent::__construct($model, $this->eventService, $customResponse, $authParameter, EventCollection::class, EventResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreEventRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreEventRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreEventRequest $request)
+    public function store(StoreEventRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
+     * @param Event $event
+     * @return JsonResponse
      */
-    public function show(Event $event)
+    public function show(Event $event): JsonResponse
     {
-        //
+        return $this->showHelper($event);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
+     * @param Event $event
+     * @param UpdateEventRequest $request
+     * @return JsonResponse
      */
-    public function edit(Event $event)
+    public function update(Event $event, UpdateEventRequest $request): JsonResponse
     {
-        //
+        return $this->updateHelper($event, $request);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateEventRequest  $request
-     * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
+     * @param Event $event
+     * @return JsonResponse
      */
-    public function update(UpdateEventRequest $request, Event $event)
+    public function destroy(Event $event): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Event $event)
-    {
-        //
+        return $this->destroyHelper($event);
     }
 }

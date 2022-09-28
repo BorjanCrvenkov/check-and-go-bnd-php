@@ -2,85 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\WorkingHour\WorkingHourCollection;
+use App\Http\Resources\WorkingHour\WorkingHourResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\WorkingHour;
 use App\Http\Requests\StoreWorkingHourRequest;
 use App\Http\Requests\UpdateWorkingHourRequest;
+use App\Services\Implementation\WorkingHourService;
+use Illuminate\Http\JsonResponse;
 
 class WorkingHourController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param WorkingHour $model
+     * @param WorkingHourService $workingHourService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(WorkingHour $model, public readonly WorkingHourService $workingHourService, public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'WorkingHour';
+        parent::__construct($model, $this->workingHourService, $customResponse, $authParameter,
+            WorkingHourCollection::class, WorkingHourResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreWorkingHourRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreWorkingHourRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreWorkingHourRequest $request)
+    public function store(StoreWorkingHourRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\WorkingHour  $workingHour
-     * @return \Illuminate\Http\Response
+     * @param WorkingHour $workingHour
+     * @return JsonResponse
      */
-    public function show(WorkingHour $workingHour)
+    public function show(WorkingHour $workingHour): JsonResponse
     {
-        //
+        return $this->showHelper($workingHour);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\WorkingHour  $workingHour
-     * @return \Illuminate\Http\Response
+     * @param WorkingHour $workingHour
+     * @param UpdateWorkingHourRequest $request
+     * @return JsonResponse
      */
-    public function edit(WorkingHour $workingHour)
+    public function update(WorkingHour $workingHour, UpdateWorkingHourRequest $request): JsonResponse
     {
-        //
+        return $this->updateHelper($workingHour, $request);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateWorkingHourRequest  $request
-     * @param  \App\Models\WorkingHour  $workingHour
-     * @return \Illuminate\Http\Response
+     * @param WorkingHour $workingHour
+     * @return JsonResponse
      */
-    public function update(UpdateWorkingHourRequest $request, WorkingHour $workingHour)
+    public function destroy(WorkingHour $workingHour): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\WorkingHour  $workingHour
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(WorkingHour $workingHour)
-    {
-        //
+        return $this->destroyHelper($workingHour);
     }
 }

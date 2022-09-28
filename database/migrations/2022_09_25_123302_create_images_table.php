@@ -14,6 +14,7 @@ return new class extends Migration {
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->unique();
             $table->string('link')->unique();
             $table->string('extension');
             $table->smallInteger('status')->default(0);

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 class StoreBusinessSocialMediaLinkRequest extends FormRequest
 {
@@ -11,9 +12,9 @@ class StoreBusinessSocialMediaLinkRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +22,12 @@ class StoreBusinessSocialMediaLinkRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['business_id' => "string", 'social_media_link' => "string", 'status' => "string"])] public function rules(): array
     {
         return [
-            //
+            'business_id'       => 'required|integer|exists:businesses,id',
+            'social_media_link' => 'required|string',
+            'status'            => 'nullable|integer',
         ];
     }
 }

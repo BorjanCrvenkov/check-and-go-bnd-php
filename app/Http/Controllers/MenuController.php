@@ -2,85 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Menu\MenuCollection;
+use App\Http\Resources\Menu\MenuResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\Menu;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
+use App\Services\Implementation\MenuService;
+use Illuminate\Http\JsonResponse;
 
 class MenuController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Menu $model
+     * @param MenuService $menuService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(Menu $model, public readonly MenuService $menuService, public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'menu';
+        parent::__construct($model, $this->menuService, $customResponse, $authParameter, MenuCollection::class,
+            MenuResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreMenuRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreMenuRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreMenuRequest $request)
+    public function store(StoreMenuRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Menu  $menu
-     * @return \Illuminate\Http\Response
+     * @param Menu $menu
+     * @return JsonResponse
      */
-    public function show(Menu $menu)
+    public function show(Menu $menu): JsonResponse
     {
-        //
+        return $this->showHelper($menu);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Menu  $menu
-     * @return \Illuminate\Http\Response
+     * @param Menu $menu
+     * @param UpdateMenuRequest $request
+     * @return JsonResponse
      */
-    public function edit(Menu $menu)
+    public function update(Menu $menu, UpdateMenuRequest $request): JsonResponse
     {
-        //
+        return $this->updateHelper($menu, $request);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateMenuRequest  $request
-     * @param  \App\Models\Menu  $menu
-     * @return \Illuminate\Http\Response
+     * @param Menu $menu
+     * @return JsonResponse
      */
-    public function update(UpdateMenuRequest $request, Menu $menu)
+    public function destroy(Menu $menu): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Menu  $menu
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Menu $menu)
-    {
-        //
+        return $this->destroyHelper($menu);
     }
 }

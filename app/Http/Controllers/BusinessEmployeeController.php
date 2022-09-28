@@ -2,85 +2,61 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BusinessEmployee\BusinessEmployeeCollection;
+use App\Http\Resources\BusinessEmployee\BusinessEmployeeResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\BusinessEmployee;
 use App\Http\Requests\StoreBusinessEmployeeRequest;
-use App\Http\Requests\UpdateBusinessEmployeeRequest;
+use App\Services\Implementation\BusinessEmployeeService;
+use Illuminate\Http\JsonResponse;
 
 class BusinessEmployeeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param BusinessEmployee $model
+     * @param BusinessEmployeeService $businessEmployeeService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(BusinessEmployee      $model, public readonly BusinessEmployeeService $businessEmployeeService,
+                                public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'businessEmployee';
+        parent::__construct($model, $this->businessEmployeeService, $customResponse, $authParameter,
+            BusinessEmployeeCollection::class, BusinessEmployeeResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreBusinessEmployeeRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreBusinessEmployeeRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreBusinessEmployeeRequest $request)
+    public function store(StoreBusinessEmployeeRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\BusinessEmployee  $businessEmployee
-     * @return \Illuminate\Http\Response
+     * @param BusinessEmployee $businessEmployee
+     * @return JsonResponse
      */
-    public function show(BusinessEmployee $businessEmployee)
+    public function show(BusinessEmployee $businessEmployee): JsonResponse
     {
-        //
+        return $this->showHelper($businessEmployee);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\BusinessEmployee  $businessEmployee
-     * @return \Illuminate\Http\Response
+     * @param BusinessEmployee $businessEmployee
+     * @return JsonResponse
      */
-    public function edit(BusinessEmployee $businessEmployee)
+    public function destroy(BusinessEmployee $businessEmployee): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateBusinessEmployeeRequest  $request
-     * @param  \App\Models\BusinessEmployee  $businessEmployee
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateBusinessEmployeeRequest $request, BusinessEmployee $businessEmployee)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\BusinessEmployee  $businessEmployee
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(BusinessEmployee $businessEmployee)
-    {
-        //
+        return $this->destroyHelper($businessEmployee);
     }
 }

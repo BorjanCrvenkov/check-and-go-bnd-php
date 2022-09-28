@@ -2,85 +2,72 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BusinessImage\BusinessImageCollection;
+use App\Http\Resources\BusinessImage\BusinessImageResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\BusinessSocialMediaLink;
 use App\Http\Requests\StoreBusinessSocialMediaLinkRequest;
 use App\Http\Requests\UpdateBusinessSocialMediaLinkRequest;
+use App\Services\Implementation\BusinessSocialMediaLinkService;
+use Illuminate\Http\JsonResponse;
 
 class BusinessSocialMediaLinkController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param BusinessSocialMediaLink $model
+     * @param BusinessSocialMediaLinkService $businessSocialMediaLinkService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(BusinessSocialMediaLink $model, public readonly BusinessSocialMediaLinkService $businessSocialMediaLinkService,
+                                public CustomResponse   $customResponse)
     {
-        //
+        $authParameter = 'businessSocialMediaLink';
+        parent::__construct($model, $this->businessSocialMediaLinkService, $customResponse, $authParameter,
+            BusinessImageCollection::class, BusinessImageResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreBusinessSocialMediaLinkRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreBusinessSocialMediaLinkRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreBusinessSocialMediaLinkRequest $request)
+    public function store(StoreBusinessSocialMediaLinkRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\BusinessSocialMediaLink  $businessSocialMediaLink
-     * @return \Illuminate\Http\Response
+     * @param BusinessSocialMediaLink $businessSocialMediaLink
+     * @return JsonResponse
      */
-    public function show(BusinessSocialMediaLink $businessSocialMediaLink)
+    public function show(BusinessSocialMediaLink $businessSocialMediaLink): JsonResponse
     {
-        //
+        return $this->showHelper($businessSocialMediaLink);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\BusinessSocialMediaLink  $businessSocialMediaLink
-     * @return \Illuminate\Http\Response
+     * @param BusinessSocialMediaLink $businessSocialMediaLink
+     * @param UpdateBusinessSocialMediaLinkRequest $request
+     * @return JsonResponse
      */
-    public function edit(BusinessSocialMediaLink $businessSocialMediaLink)
+    public function update(BusinessSocialMediaLink $businessSocialMediaLink, UpdateBusinessSocialMediaLinkRequest $request): JsonResponse
     {
-        //
+        return $this->updateHelper($businessSocialMediaLink, $request);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateBusinessSocialMediaLinkRequest  $request
-     * @param  \App\Models\BusinessSocialMediaLink  $businessSocialMediaLink
-     * @return \Illuminate\Http\Response
+     * @param BusinessSocialMediaLink $businessSocialMediaLink
+     * @return JsonResponse
      */
-    public function update(UpdateBusinessSocialMediaLinkRequest $request, BusinessSocialMediaLink $businessSocialMediaLink)
+    public function destroy(BusinessSocialMediaLink $businessSocialMediaLink): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\BusinessSocialMediaLink  $businessSocialMediaLink
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(BusinessSocialMediaLink $businessSocialMediaLink)
-    {
-        //
+        return $this->destroyHelper($businessSocialMediaLink);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 class UpdateBusinessWorkingHoursRequest extends FormRequest
 {
@@ -11,9 +12,9 @@ class UpdateBusinessWorkingHoursRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +22,12 @@ class UpdateBusinessWorkingHoursRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['business_id' => "string", 'working_hours_id' => "string", 'status' => "string"])] public function rules(): array
     {
         return [
-            //
+            'business_id'      => 'nullable|integer|exists:businesses,id',
+            'working_hours_id' => 'nullable|integer|exists:working_hours,id',
+            'status'           => 'nullable|integer',
         ];
     }
 }

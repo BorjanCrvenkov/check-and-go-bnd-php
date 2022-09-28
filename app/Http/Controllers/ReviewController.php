@@ -2,85 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Review\ReviewCollection;
+use App\Http\Resources\Review\ReviewResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\Review;
 use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UpdateReviewRequest;
+use App\Services\Implementation\ReviewService;
+use Illuminate\Http\JsonResponse;
 
 class ReviewController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Review $model
+     * @param ReviewService $reviewService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(Review $model, public readonly ReviewService $reviewService, public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'review';
+        parent::__construct($model, $this->reviewService, $customResponse, $authParameter,
+            ReviewCollection::class, ReviewResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreReviewRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreReviewRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreReviewRequest $request)
+    public function store(StoreReviewRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Review  $review
-     * @return \Illuminate\Http\Response
+     * @param Review $review
+     * @return JsonResponse
      */
-    public function show(Review $review)
+    public function show(Review $review): JsonResponse
     {
-        //
+        return $this->showHelper($review);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Review  $review
-     * @return \Illuminate\Http\Response
+     * @param Review $review
+     * @param UpdateReviewRequest $request
+     * @return JsonResponse
      */
-    public function edit(Review $review)
+    public function update(Review $review, UpdateReviewRequest $request): JsonResponse
     {
-        //
+        return $this->updateHelper($review, $request);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateReviewRequest  $request
-     * @param  \App\Models\Review  $review
-     * @return \Illuminate\Http\Response
+     * @param Review $review
+     * @return JsonResponse
      */
-    public function update(UpdateReviewRequest $request, Review $review)
+    public function destroy(Review $review): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Review  $review
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Review $review)
-    {
-        //
+        return $this->destroyHelper($review);
     }
 }

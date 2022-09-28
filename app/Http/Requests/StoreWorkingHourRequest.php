@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 class StoreWorkingHourRequest extends FormRequest
 {
@@ -11,9 +12,9 @@ class StoreWorkingHourRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +22,13 @@ class StoreWorkingHourRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['day' => "string", 'opening_time' => "string", 'closing_time' => "string", 'status' => "string"])] public function rules(): array
     {
         return [
-            //
+            'day'          => 'required|string',
+            'opening_time' => 'required|date',
+            'closing_time' => 'required|date',
+            'status'       => 'nullable|integer',
         ];
     }
 }

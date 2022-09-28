@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 class UpdatePaymentPlanRequest extends FormRequest
 {
@@ -11,9 +12,9 @@ class UpdatePaymentPlanRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +22,14 @@ class UpdatePaymentPlanRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['name' => "string", 'description' => "string", 'price' => "string", 'payment_frequency_id' => "string", 'status' => "string"])] public function rules(): array
     {
         return [
-            //
+            'name'                 => 'nullable|string',
+            'description'          => 'nullable|string',
+            'price'                => 'nullable|integer',
+            'payment_frequency_id' => 'nullable|integer|exists:payment_frequencies,id',
+            'status'               => 'nullable|integer',
         ];
     }
 }

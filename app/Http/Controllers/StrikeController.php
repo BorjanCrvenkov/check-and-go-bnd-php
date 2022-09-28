@@ -2,85 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Strike\StrikeCollection;
+use App\Http\Resources\Strike\StrikeResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\Strike;
 use App\Http\Requests\StoreStrikeRequest;
 use App\Http\Requests\UpdateStrikeRequest;
+use App\Services\Implementation\StrikeService;
+use Illuminate\Http\JsonResponse;
 
 class StrikeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Strike $model
+     * @param StrikeService $strikeService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(Strike $model, public readonly StrikeService $strikeService, public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'strike';
+        parent::__construct($model, $this->strikeService, $customResponse, $authParameter,
+            StrikeCollection::class, StrikeResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreStrikeRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreStrikeRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreStrikeRequest $request)
+    public function store(StoreStrikeRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Strike  $strike
-     * @return \Illuminate\Http\Response
+     * @param Strike $strike
+     * @return JsonResponse
      */
-    public function show(Strike $strike)
+    public function show(Strike $strike): JsonResponse
     {
-        //
+        return $this->showHelper($strike);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Strike  $strike
-     * @return \Illuminate\Http\Response
+     * @param Strike $strike
+     * @param UpdateStrikeRequest $request
+     * @return JsonResponse
      */
-    public function edit(Strike $strike)
+    public function update(Strike $strike, UpdateStrikeRequest $request): JsonResponse
     {
-        //
+        return $this->updateHelper($strike, $request);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateStrikeRequest  $request
-     * @param  \App\Models\Strike  $strike
-     * @return \Illuminate\Http\Response
+     * @param Strike $strike
+     * @return JsonResponse
      */
-    public function update(UpdateStrikeRequest $request, Strike $strike)
+    public function destroy(Strike $strike): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Strike  $strike
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Strike $strike)
-    {
-        //
+        return $this->destroyHelper($strike);
     }
 }

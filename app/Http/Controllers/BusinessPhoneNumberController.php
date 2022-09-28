@@ -2,85 +2,74 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BusinessPhoneNumber;
+
 use App\Http\Requests\StoreBusinessPhoneNumberRequest;
 use App\Http\Requests\UpdateBusinessPhoneNumberRequest;
+use App\Http\Resources\BusinessImage\BusinessImageCollection;
+use App\Http\Resources\BusinessImage\BusinessImageResource;
+use App\Http\Responses\CustomResponse;
+use App\Models\BusinessPhoneNumber;
+use App\Services\Implementation\BusinessPhoneNumberService;
+use Illuminate\Http\JsonResponse;
 
 class BusinessPhoneNumberController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param BusinessPhoneNumber $model
+     * @param BusinessPhoneNumberService $BusinessPhoneNumberService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(BusinessPhoneNumber $model, public readonly BusinessPhoneNumberService $BusinessPhoneNumberService,
+                                public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'businessPhoneNumber';
+        parent::__construct($model, $this->BusinessPhoneNumberService, $customResponse, $authParameter,
+            BusinessImageCollection::class, BusinessImageResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreBusinessPhoneNumberRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreBusinessPhoneNumberRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreBusinessPhoneNumberRequest $request)
+    public function store(StoreBusinessPhoneNumberRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\BusinessPhoneNumber  $businessPhoneNumber
-     * @return \Illuminate\Http\Response
+     * @param BusinessPhoneNumber $businessPhoneNumber
+     * @return JsonResponse
      */
-    public function show(BusinessPhoneNumber $businessPhoneNumber)
+    public function show(BusinessPhoneNumber $businessPhoneNumber): JsonResponse
     {
-        //
+        return $this->showHelper($businessPhoneNumber);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\BusinessPhoneNumber  $businessPhoneNumber
-     * @return \Illuminate\Http\Response
+     * @param BusinessPhoneNumber $businessPhoneNumber
+     * @param UpdateBusinessPhoneNumberRequest $request
+     * @return JsonResponse
      */
-    public function edit(BusinessPhoneNumber $businessPhoneNumber)
+    public function update(BusinessPhoneNumber $businessPhoneNumber, UpdateBusinessPhoneNumberRequest $request): JsonResponse
     {
-        //
+        return $this->updateHelper($businessPhoneNumber, $request);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateBusinessPhoneNumberRequest  $request
-     * @param  \App\Models\BusinessPhoneNumber  $businessPhoneNumber
-     * @return \Illuminate\Http\Response
+     * @param BusinessPhoneNumber $businessPhoneNumber
+     * @return JsonResponse
      */
-    public function update(UpdateBusinessPhoneNumberRequest $request, BusinessPhoneNumber $businessPhoneNumber)
+    public function destroy(BusinessPhoneNumber $businessPhoneNumber): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\BusinessPhoneNumber  $businessPhoneNumber
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(BusinessPhoneNumber $businessPhoneNumber)
-    {
-        //
+        return $this->destroyHelper($businessPhoneNumber);
     }
 }

@@ -2,85 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PaymentFrequency\PaymentFrequencyCollection;
+use App\Http\Resources\PaymentFrequency\PaymentFrequencyResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\PaymentFrequency;
 use App\Http\Requests\StorePaymentFrequencyRequest;
 use App\Http\Requests\UpdatePaymentFrequencyRequest;
+use App\Services\Implementation\PaymentFrequencyService;
+use Illuminate\Http\JsonResponse;
 
 class PaymentFrequencyController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param PaymentFrequency $model
+     * @param PaymentFrequencyService $paymentFrequencyService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(PaymentFrequency $model, public readonly PaymentFrequencyService $paymentFrequencyService, public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'paymentFrequency';
+        parent::__construct($model, $this->paymentFrequencyService, $customResponse, $authParameter,
+            PaymentFrequencyCollection::class, PaymentFrequencyResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StorePaymentFrequencyRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StorePaymentFrequencyRequest $request
+     * @return JsonResponse
      */
-    public function store(StorePaymentFrequencyRequest $request)
+    public function store(StorePaymentFrequencyRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\PaymentFrequency  $paymentFrequency
-     * @return \Illuminate\Http\Response
+     * @param PaymentFrequency $paymentFrequency
+     * @return JsonResponse
      */
-    public function show(PaymentFrequency $paymentFrequency)
+    public function show(PaymentFrequency $paymentFrequency): JsonResponse
     {
-        //
+        return $this->showHelper($paymentFrequency);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\PaymentFrequency  $paymentFrequency
-     * @return \Illuminate\Http\Response
+     * @param PaymentFrequency $paymentFrequency
+     * @param UpdatePaymentFrequencyRequest $request
+     * @return JsonResponse
      */
-    public function edit(PaymentFrequency $paymentFrequency)
+    public function update(PaymentFrequency $paymentFrequency, UpdatePaymentFrequencyRequest $request): JsonResponse
     {
-        //
+        return $this->updateHelper($paymentFrequency, $request);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdatePaymentFrequencyRequest  $request
-     * @param  \App\Models\PaymentFrequency  $paymentFrequency
-     * @return \Illuminate\Http\Response
+     * @param PaymentFrequency $paymentFrequency
+     * @return JsonResponse
      */
-    public function update(UpdatePaymentFrequencyRequest $request, PaymentFrequency $paymentFrequency)
+    public function destroy(PaymentFrequency $paymentFrequency): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\PaymentFrequency  $paymentFrequency
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(PaymentFrequency $paymentFrequency)
-    {
-        //
+        return $this->destroyHelper($paymentFrequency);
     }
 }

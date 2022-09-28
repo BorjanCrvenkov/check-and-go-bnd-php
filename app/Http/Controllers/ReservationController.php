@@ -2,85 +2,72 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Reservation\ReservationCollection;
+use App\Http\Resources\Reservation\ReservationResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\Reservation;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
+use App\Services\Implementation\ReservationService;
+use Illuminate\Http\JsonResponse;
 
 class ReservationController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Reservation $model
+     * @param ReservationService $reservationService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(Reservation $model, public readonly ReservationService $reservationService,
+                                public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'reservation';
+        parent::__construct($model, $this->reservationService, $customResponse, $authParameter,
+            ReservationCollection::class, ReservationResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreReservationRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreReservationRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreReservationRequest $request)
+    public function store(StoreReservationRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Reservation  $reservation
-     * @return \Illuminate\Http\Response
+     * @param Reservation $reservation
+     * @return JsonResponse
      */
-    public function show(Reservation $reservation)
+    public function show(Reservation $reservation): JsonResponse
     {
-        //
+        return $this->showHelper($reservation);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Reservation  $reservation
-     * @return \Illuminate\Http\Response
+     * @param Reservation $reservation
+     * @param UpdateReservationRequest $request
+     * @return JsonResponse
      */
-    public function edit(Reservation $reservation)
+    public function update(Reservation $reservation, UpdateReservationRequest $request): JsonResponse
     {
-        //
+        return $this->updateHelper($reservation, $request);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateReservationRequest  $request
-     * @param  \App\Models\Reservation  $reservation
-     * @return \Illuminate\Http\Response
+     * @param Reservation $reservation
+     * @return JsonResponse
      */
-    public function update(UpdateReservationRequest $request, Reservation $reservation)
+    public function destroy(Reservation $reservation): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Reservation  $reservation
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Reservation $reservation)
-    {
-        //
+        return $this->destroyHelper($reservation);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 class StoreMenuItemTagRequest extends FormRequest
 {
@@ -11,9 +12,9 @@ class StoreMenuItemTagRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +22,11 @@ class StoreMenuItemTagRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['menu_item_id' => "string", 'tag_id' => "string"])] public function rules(): array
     {
         return [
-            //
+            'menu_item_id' => 'required|integer|exists:menu_items,id',
+            'tag_id'       => 'required|integer|exists:tags,id',
         ];
     }
 }

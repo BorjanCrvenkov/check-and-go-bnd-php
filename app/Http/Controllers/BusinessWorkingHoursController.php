@@ -2,85 +2,72 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BusinessImage\BusinessImageCollection;
+use App\Http\Resources\BusinessImage\BusinessImageResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\BusinessWorkingHours;
 use App\Http\Requests\StoreBusinessWorkingHoursRequest;
 use App\Http\Requests\UpdateBusinessWorkingHoursRequest;
+use App\Services\Implementation\BusinessWorkingHoursService;
+use Illuminate\Http\JsonResponse;
 
 class BusinessWorkingHoursController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param BusinessWorkingHours $model
+     * @param BusinessWorkingHoursService $businessWorkingHoursService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(BusinessWorkingHours $model, public readonly BusinessWorkingHoursService $businessWorkingHoursService,
+                                public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'businessWorkingHour';
+        parent::__construct($model, $this->businessWorkingHoursService, $customResponse, $authParameter,
+            BusinessImageCollection::class, BusinessImageResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreBusinessWorkingHoursRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreBusinessWorkingHoursRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreBusinessWorkingHoursRequest $request)
+    public function store(StoreBusinessWorkingHoursRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\BusinessWorkingHours  $businessWorkingHours
-     * @return \Illuminate\Http\Response
+     * @param BusinessWorkingHours $businessWorkingHours
+     * @return JsonResponse
      */
-    public function show(BusinessWorkingHours $businessWorkingHours)
+    public function show(BusinessWorkingHours $businessWorkingHours): JsonResponse
     {
-        //
+        return $this->showHelper($businessWorkingHours);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\BusinessWorkingHours  $businessWorkingHours
-     * @return \Illuminate\Http\Response
+     * @param BusinessWorkingHours $businessWorkingHours
+     * @param UpdateBusinessWorkingHoursRequest $request
+     * @return JsonResponse
      */
-    public function edit(BusinessWorkingHours $businessWorkingHours)
+    public function update(BusinessWorkingHours $businessWorkingHours, UpdateBusinessWorkingHoursRequest $request): JsonResponse
     {
-        //
+        return $this->updateHelper($businessWorkingHours, $request);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateBusinessWorkingHoursRequest  $request
-     * @param  \App\Models\BusinessWorkingHours  $businessWorkingHours
-     * @return \Illuminate\Http\Response
+     * @param BusinessWorkingHours $businessWorkingHours
+     * @return JsonResponse
      */
-    public function update(UpdateBusinessWorkingHoursRequest $request, BusinessWorkingHours $businessWorkingHours)
+    public function destroy(BusinessWorkingHours $businessWorkingHours): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\BusinessWorkingHours  $businessWorkingHours
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(BusinessWorkingHours $businessWorkingHours)
-    {
-        //
+        return $this->destroyHelper($businessWorkingHours);
     }
 }
