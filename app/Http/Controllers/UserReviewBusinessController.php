@@ -2,85 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserReviewBusiness\UserReviewBusinessCollection;
+use App\Http\Resources\UserReviewBusiness\UserReviewBusinessResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\UserReviewBusiness;
 use App\Http\Requests\StoreUserReviewBusinessRequest;
 use App\Http\Requests\UpdateUserReviewBusinessRequest;
+use App\Services\Implementation\UserReviewBusinessService;
+use Illuminate\Http\JsonResponse;
 
 class UserReviewBusinessController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param UserReviewBusiness $model
+     * @param UserReviewBusinessService $userReviewBusinessService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(UserReviewBusiness $model, public readonly UserReviewBusinessService $userReviewBusinessService, public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'userReviewBusiness';
+        parent::__construct($model, $this->userReviewBusinessService, $customResponse, $authParameter,
+            UserReviewBusinessCollection::class, UserReviewBusinessResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreUserReviewBusinessRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreUserReviewBusinessRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreUserReviewBusinessRequest $request)
+    public function store(StoreUserReviewBusinessRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\UserReviewBusiness  $userReviewBusiness
-     * @return \Illuminate\Http\Response
+     * @param UserReviewBusiness $userReviewBusiness
+     * @return JsonResponse
      */
-    public function show(UserReviewBusiness $userReviewBusiness)
+    public function show(UserReviewBusiness $userReviewBusiness): JsonResponse
     {
-        //
+        return $this->showHelper($userReviewBusiness);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\UserReviewBusiness  $userReviewBusiness
-     * @return \Illuminate\Http\Response
+     * @param UserReviewBusiness $userReviewBusiness
+     * @param UpdateUserReviewBusinessRequest $request
+     * @return JsonResponse
      */
-    public function edit(UserReviewBusiness $userReviewBusiness)
+    public function update(UserReviewBusiness $userReviewBusiness, UpdateUserReviewBusinessRequest $request): JsonResponse
     {
-        //
+        return $this->updateHelper($userReviewBusiness, $request);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateUserReviewBusinessRequest  $request
-     * @param  \App\Models\UserReviewBusiness  $userReviewBusiness
-     * @return \Illuminate\Http\Response
+     * @param UserReviewBusiness $userReviewBusiness
+     * @return JsonResponse
      */
-    public function update(UpdateUserReviewBusinessRequest $request, UserReviewBusiness $userReviewBusiness)
+    public function destroy(UserReviewBusiness $userReviewBusiness): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\UserReviewBusiness  $userReviewBusiness
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(UserReviewBusiness $userReviewBusiness)
-    {
-        //
+        return $this->destroyHelper($userReviewBusiness);
     }
 }

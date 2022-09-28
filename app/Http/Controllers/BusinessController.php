@@ -2,85 +2,70 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Business;
 use App\Http\Requests\StoreBusinessRequest;
 use App\Http\Requests\UpdateBusinessRequest;
+use App\Http\Resources\Business\BusinessCollection;
+use App\Http\Resources\Business\BusinessResource;
+use App\Http\Responses\CustomResponse;
+use App\Models\Business;
+use App\Services\Implementation\BusinessService;
+use Illuminate\Http\JsonResponse;
 
 class BusinessController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Business $model
+     * @param BusinessService $businessService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(Business $model, public readonly BusinessService $businessService, public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'business';
+        parent::__construct($model, $this->businessService, $customResponse, $authParameter, BusinessCollection::class, BusinessResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreBusinessRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreBusinessRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreBusinessRequest $request)
+    public function store(StoreBusinessRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Business  $business
-     * @return \Illuminate\Http\Response
+     * @param Business $business
+     * @return JsonResponse
      */
-    public function show(Business $business)
+    public function show(Business $business): JsonResponse
     {
-        //
+        return $this->showHelper($business);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Business  $business
-     * @return \Illuminate\Http\Response
+     * @param Business $business
+     * @param UpdateBusinessRequest $request
+     * @return JsonResponse
      */
-    public function edit(Business $business)
+    public function update(Business $business, UpdateBusinessRequest $request): JsonResponse
     {
-        //
+        return $this->updateHelper($business, $request);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateBusinessRequest  $request
-     * @param  \App\Models\Business  $business
-     * @return \Illuminate\Http\Response
+     * @param Business $business
+     * @return JsonResponse
      */
-    public function update(UpdateBusinessRequest $request, Business $business)
+    public function destroy(Business $business): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Business  $business
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Business $business)
-    {
-        //
+        return $this->destroyHelper($business);
     }
 }

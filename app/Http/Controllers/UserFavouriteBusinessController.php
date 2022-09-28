@@ -2,85 +2,60 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserFavouriteBusiness\UserFavouriteBusinessCollection;
+use App\Http\Resources\UserFavouriteBusiness\UserFavouriteBusinessResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\UserFavouriteBusiness;
 use App\Http\Requests\StoreUserFavouriteBusinessRequest;
-use App\Http\Requests\UpdateUserFavouriteBusinessRequest;
+use App\Services\Implementation\UserFavouriteBusinessService;
+use Illuminate\Http\JsonResponse;
 
 class UserFavouriteBusinessController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param UserFavouriteBusiness $model
+     * @param UserFavouriteBusinessService $userFavouriteBusinessService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(UserFavouriteBusiness $model, public readonly UserFavouriteBusinessService $userFavouriteBusinessService, public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'userFavouriteBusiness';
+        parent::__construct($model, $this->userFavouriteBusinessService, $customResponse, $authParameter,
+            UserFavouriteBusinessCollection::class, UserFavouriteBusinessResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreUserFavouriteBusinessRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreUserFavouriteBusinessRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreUserFavouriteBusinessRequest $request)
+    public function store(StoreUserFavouriteBusinessRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\UserFavouriteBusiness  $userFavouriteBusiness
-     * @return \Illuminate\Http\Response
+     * @param UserFavouriteBusiness $userFavouriteBusiness
+     * @return JsonResponse
      */
-    public function show(UserFavouriteBusiness $userFavouriteBusiness)
+    public function show(UserFavouriteBusiness $userFavouriteBusiness): JsonResponse
     {
-        //
+        return $this->showHelper($userFavouriteBusiness);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\UserFavouriteBusiness  $userFavouriteBusiness
-     * @return \Illuminate\Http\Response
+     * @param UserFavouriteBusiness $userFavouriteBusiness
+     * @return JsonResponse
      */
-    public function edit(UserFavouriteBusiness $userFavouriteBusiness)
+    public function destroy(UserFavouriteBusiness $userFavouriteBusiness): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateUserFavouriteBusinessRequest  $request
-     * @param  \App\Models\UserFavouriteBusiness  $userFavouriteBusiness
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateUserFavouriteBusinessRequest $request, UserFavouriteBusiness $userFavouriteBusiness)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\UserFavouriteBusiness  $userFavouriteBusiness
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(UserFavouriteBusiness $userFavouriteBusiness)
-    {
-        //
+        return $this->destroyHelper($userFavouriteBusiness);
     }
 }

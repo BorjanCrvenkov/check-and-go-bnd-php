@@ -2,85 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PaymentPlan\PaymentPlanCollection;
+use App\Http\Resources\PaymentPlan\PaymentPlanResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\PaymentPlan;
 use App\Http\Requests\StorePaymentPlanRequest;
 use App\Http\Requests\UpdatePaymentPlanRequest;
+use App\Services\Implementation\PaymentPlanService;
+use Illuminate\Http\JsonResponse;
 
 class PaymentPlanController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param PaymentPlan $model
+     * @param PaymentPlanService $paymentPlanService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(PaymentPlan $model, public readonly PaymentPlanService $paymentPlanService, public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'paymentPlan';
+        parent::__construct($model, $this->paymentPlanService, $customResponse, $authParameter,
+            PaymentPlanCollection::class, PaymentPlanResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StorePaymentPlanRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StorePaymentPlanRequest $request
+     * @return JsonResponse
      */
-    public function store(StorePaymentPlanRequest $request)
+    public function store(StorePaymentPlanRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\PaymentPlan  $paymentPlan
-     * @return \Illuminate\Http\Response
+     * @param PaymentPlan $paymentPlan
+     * @return JsonResponse
      */
-    public function show(PaymentPlan $paymentPlan)
+    public function show(PaymentPlan $paymentPlan): JsonResponse
     {
-        //
+        return $this->showHelper($paymentPlan);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\PaymentPlan  $paymentPlan
-     * @return \Illuminate\Http\Response
+     * @param PaymentPlan $paymentPlan
+     * @param UpdatePaymentPlanRequest $request
+     * @return JsonResponse
      */
-    public function edit(PaymentPlan $paymentPlan)
+    public function update(PaymentPlan $paymentPlan, UpdatePaymentPlanRequest $request): JsonResponse
     {
-        //
+        return $this->updateHelper($paymentPlan, $request);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdatePaymentPlanRequest  $request
-     * @param  \App\Models\PaymentPlan  $paymentPlan
-     * @return \Illuminate\Http\Response
+     * @param PaymentPlan $paymentPlan
+     * @return JsonResponse
      */
-    public function update(UpdatePaymentPlanRequest $request, PaymentPlan $paymentPlan)
+    public function destroy(PaymentPlan $paymentPlan): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\PaymentPlan  $paymentPlan
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(PaymentPlan $paymentPlan)
-    {
-        //
+        return $this->destroyHelper($paymentPlan);
     }
 }

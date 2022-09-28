@@ -2,85 +2,60 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\MenuItemTag\MenuItemTagCollection;
+use App\Http\Resources\MenuItemTag\MenuItemTagResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\MenuItemTag;
 use App\Http\Requests\StoreMenuItemTagRequest;
-use App\Http\Requests\UpdateMenuItemTagRequest;
+use App\Services\Implementation\MenuItemTagService;
+use Illuminate\Http\JsonResponse;
 
 class MenuItemTagController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param MenuItemTag $model
+     * @param MenuItemTagService $menuItemTagService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(MenuItemTag $model, public readonly MenuItemTagService $menuItemTagService, public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'menuItemTag';
+        parent::__construct($model, $this->menuItemTagService, $customResponse, $authParameter,
+            MenuItemTagCollection::class, MenuItemTagResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreMenuItemTagRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreMenuItemTagRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreMenuItemTagRequest $request)
+    public function store(StoreMenuItemTagRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\MenuItemTag  $menuItemTag
-     * @return \Illuminate\Http\Response
+     * @param MenuItemTag $menuItemTag
+     * @return JsonResponse
      */
-    public function show(MenuItemTag $menuItemTag)
+    public function show(MenuItemTag $menuItemTag): JsonResponse
     {
-        //
+        return $this->showHelper($menuItemTag);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\MenuItemTag  $menuItemTag
-     * @return \Illuminate\Http\Response
+     * @param MenuItemTag $menuItemTag
+     * @return JsonResponse
      */
-    public function edit(MenuItemTag $menuItemTag)
+    public function destroy(MenuItemTag $menuItemTag): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateMenuItemTagRequest  $request
-     * @param  \App\Models\MenuItemTag  $menuItemTag
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateMenuItemTagRequest $request, MenuItemTag $menuItemTag)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\MenuItemTag  $menuItemTag
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(MenuItemTag $menuItemTag)
-    {
-        //
+        return $this->destroyHelper($menuItemTag);
     }
 }

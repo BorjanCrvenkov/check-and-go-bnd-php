@@ -2,85 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserStrike\UserStrikeCollection;
+use App\Http\Resources\UserStrike\UserStrikeResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\UserStrike;
 use App\Http\Requests\StoreUserStrikeRequest;
 use App\Http\Requests\UpdateUserStrikeRequest;
+use App\Services\Implementation\UserStrikeService;
+use Illuminate\Http\JsonResponse;
 
 class UserStrikeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param UserStrike $model
+     * @param UserStrikeService $userStrikeService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(UserStrike $model, public readonly UserStrikeService $userStrikeService, public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'userStrike';
+        parent::__construct($model, $this->userStrikeService, $customResponse, $authParameter,
+            UserStrikeCollection::class, UserStrikeResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreUserStrikeRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreUserStrikeRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreUserStrikeRequest $request)
+    public function store(StoreUserStrikeRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\UserStrike  $userStrike
-     * @return \Illuminate\Http\Response
+     * @param UserStrike $userStrike
+     * @return JsonResponse
      */
-    public function show(UserStrike $userStrike)
+    public function show(UserStrike $userStrike): JsonResponse
     {
-        //
+        return $this->showHelper($userStrike);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\UserStrike  $userStrike
-     * @return \Illuminate\Http\Response
+     * @param UserStrike $userStrike
+     * @param UpdateUserStrikeRequest $request
+     * @return JsonResponse
      */
-    public function edit(UserStrike $userStrike)
+    public function update(UserStrike $userStrike, UpdateUserStrikeRequest $request): JsonResponse
     {
-        //
+        return $this->updateHelper($userStrike, $request);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateUserStrikeRequest  $request
-     * @param  \App\Models\UserStrike  $userStrike
-     * @return \Illuminate\Http\Response
+     * @param UserStrike $userStrike
+     * @return JsonResponse
      */
-    public function update(UpdateUserStrikeRequest $request, UserStrike $userStrike)
+    public function destroy(UserStrike $userStrike): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\UserStrike  $userStrike
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(UserStrike $userStrike)
-    {
-        //
+        return $this->destroyHelper($userStrike);
     }
 }

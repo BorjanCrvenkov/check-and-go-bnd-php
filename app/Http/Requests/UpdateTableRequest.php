@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 class UpdateTableRequest extends FormRequest
 {
@@ -11,9 +12,9 @@ class UpdateTableRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +22,13 @@ class UpdateTableRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['name' => "string", 'number_of_seats' => "string", 'business_id' => "string", 'status' => "string"])] public function rules(): array
     {
         return [
-            //
+            'name'            => 'nullable|string',
+            'number_of_seats' => 'nullable|integer',
+            'business_id'     => 'nullable|integer|exists:businesses,id',
+            'status'          => 'nullable|integer',
         ];
     }
 }

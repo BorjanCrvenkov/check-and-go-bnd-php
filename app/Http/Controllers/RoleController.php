@@ -2,85 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Role\RoleCollection;
+use App\Http\Resources\Role\RoleResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\Role;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use App\Services\Implementation\RoleService;
+use Illuminate\Http\JsonResponse;
 
 class RoleController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Role $model
+     * @param RoleService $roleService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(Role $model, public readonly RoleService $roleService, public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'role';
+        parent::__construct($model, $this->roleService, $customResponse, $authParameter,
+            RoleCollection::class, RoleResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreRoleRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreRoleRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreRoleRequest $request)
+    public function store(StoreRoleRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
+     * @param Role $role
+     * @return JsonResponse
      */
-    public function show(Role $role)
+    public function show(Role $role): JsonResponse
     {
-        //
+        return $this->showHelper($role);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
+     * @param Role $role
+     * @param UpdateRoleRequest $request
+     * @return JsonResponse
      */
-    public function edit(Role $role)
+    public function update(Role $role, UpdateRoleRequest $request): JsonResponse
     {
-        //
+        return $this->updateHelper($role, $request);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateRoleRequest  $request
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
+     * @param Role $role
+     * @return JsonResponse
      */
-    public function update(UpdateRoleRequest $request, Role $role)
+    public function destroy(Role $role): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Role $role)
-    {
-        //
+        return $this->destroyHelper($role);
     }
 }

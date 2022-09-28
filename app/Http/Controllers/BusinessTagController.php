@@ -2,85 +2,61 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BusinessImage\BusinessImageCollection;
+use App\Http\Resources\BusinessImage\BusinessImageResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\BusinessTag;
 use App\Http\Requests\StoreBusinessTagRequest;
-use App\Http\Requests\UpdateBusinessTagRequest;
+use App\Services\Implementation\BusinessTagService;
+use Illuminate\Http\JsonResponse;
 
 class BusinessTagController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param BusinessTag $model
+     * @param BusinessTagService $businessTagService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(BusinessTag           $model, public readonly BusinessTagService $businessTagService,
+                                public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'businessTag';
+        parent::__construct($model, $this->businessTagService, $customResponse, $authParameter,
+            BusinessImageCollection::class, BusinessImageResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreBusinessTagRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreBusinessTagRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreBusinessTagRequest $request)
+    public function store(StoreBusinessTagRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\BusinessTag  $businessTag
-     * @return \Illuminate\Http\Response
+     * @param BusinessTag $businessTag
+     * @return JsonResponse
      */
-    public function show(BusinessTag $businessTag)
+    public function show(BusinessTag $businessTag): JsonResponse
     {
-        //
+        return $this->showHelper($businessTag);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\BusinessTag  $businessTag
-     * @return \Illuminate\Http\Response
+     * @param BusinessTag $businessTag
+     * @return JsonResponse
      */
-    public function edit(BusinessTag $businessTag)
+    public function destroy(BusinessTag $businessTag): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateBusinessTagRequest  $request
-     * @param  \App\Models\BusinessTag  $businessTag
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateBusinessTagRequest $request, BusinessTag $businessTag)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\BusinessTag  $businessTag
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(BusinessTag $businessTag)
-    {
-        //
+        return $this->destroyHelper($businessTag);
     }
 }

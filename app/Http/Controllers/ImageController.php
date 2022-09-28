@@ -2,85 +2,59 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Image\ImageCollection;
+use App\Http\Resources\Image\ImageResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\Image;
 use App\Http\Requests\StoreImageRequest;
-use App\Http\Requests\UpdateImageRequest;
+use App\Services\Implementation\ImageService;
+use Illuminate\Http\JsonResponse;
 
 class ImageController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Image $model
+     * @param ImageService $imageService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(Image $model, public readonly ImageService $imageService, public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'image';
+        parent::__construct($model, $this->imageService, $customResponse, $authParameter, ImageCollection::class, ImageResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreImageRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreImageRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreImageRequest $request)
+    public function store(StoreImageRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Image  $image
-     * @return \Illuminate\Http\Response
+     * @param Image $image
+     * @return JsonResponse
      */
-    public function show(Image $image)
+    public function show(Image $image): JsonResponse
     {
-        //
+        return $this->showHelper($image);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Image  $image
-     * @return \Illuminate\Http\Response
+     * @param Image $image
+     * @return JsonResponse
      */
-    public function edit(Image $image)
+    public function destroy(Image $image): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateImageRequest  $request
-     * @param  \App\Models\Image  $image
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateImageRequest $request, Image $image)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Image  $image
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Image $image)
-    {
-        //
+        return $this->destroyHelper($image);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 class StoreBusinessTagRequest extends FormRequest
 {
@@ -11,9 +12,9 @@ class StoreBusinessTagRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +22,12 @@ class StoreBusinessTagRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['business_id' => "string", 'tag_id' => "string", 'status' => "string"])] public function rules(): array
     {
         return [
-            //
+            'business_id' => 'required|integer|exists:businesses,id',
+            'tag_id'      => 'required|integer|exists:tags,id',
+            'status'      => 'nullable|integer',
         ];
     }
 }

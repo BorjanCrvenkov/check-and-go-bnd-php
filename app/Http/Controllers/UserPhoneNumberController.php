@@ -2,85 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserPhoneNumber\UserPhoneNumberCollection;
+use App\Http\Resources\UserPhoneNumber\UserPhoneNumberResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\UserPhoneNumber;
 use App\Http\Requests\StoreUserPhoneNumberRequest;
 use App\Http\Requests\UpdateUserPhoneNumberRequest;
+use App\Services\Implementation\UserPhoneNumberService;
+use Illuminate\Http\JsonResponse;
 
 class UserPhoneNumberController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param UserPhoneNumber $model
+     * @param UserPhoneNumberService $userPhoneNumberService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(UserPhoneNumber $model, public readonly UserPhoneNumberService $userPhoneNumberService, public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'userPhoneNumber';
+        parent::__construct($model, $this->userPhoneNumberService, $customResponse, $authParameter,
+            UserPhoneNumberCollection::class, UserPhoneNumberResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreUserPhoneNumberRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreUserPhoneNumberRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreUserPhoneNumberRequest $request)
+    public function store(StoreUserPhoneNumberRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\UserPhoneNumber  $userPhoneNumber
-     * @return \Illuminate\Http\Response
+     * @param UserPhoneNumber $userPhoneNumber
+     * @return JsonResponse
      */
-    public function show(UserPhoneNumber $userPhoneNumber)
+    public function show(UserPhoneNumber $userPhoneNumber): JsonResponse
     {
-        //
+        return $this->showHelper($userPhoneNumber);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\UserPhoneNumber  $userPhoneNumber
-     * @return \Illuminate\Http\Response
+     * @param UserPhoneNumber $userPhoneNumber
+     * @param UpdateUserPhoneNumberRequest $request
+     * @return JsonResponse
      */
-    public function edit(UserPhoneNumber $userPhoneNumber)
+    public function update(UserPhoneNumber $userPhoneNumber, UpdateUserPhoneNumberRequest $request): JsonResponse
     {
-        //
+        return $this->updateHelper($userPhoneNumber, $request);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateUserPhoneNumberRequest  $request
-     * @param  \App\Models\UserPhoneNumber  $userPhoneNumber
-     * @return \Illuminate\Http\Response
+     * @param UserPhoneNumber $userPhoneNumber
+     * @return JsonResponse
      */
-    public function update(UpdateUserPhoneNumberRequest $request, UserPhoneNumber $userPhoneNumber)
+    public function destroy(UserPhoneNumber $userPhoneNumber): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\UserPhoneNumber  $userPhoneNumber
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(UserPhoneNumber $userPhoneNumber)
-    {
-        //
+        return $this->destroyHelper($userPhoneNumber);
     }
 }

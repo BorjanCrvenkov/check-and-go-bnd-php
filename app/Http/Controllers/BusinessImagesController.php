@@ -2,85 +2,61 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BusinessImage\BusinessImageCollection;
+use App\Http\Resources\BusinessImage\BusinessImageResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\BusinessImages;
 use App\Http\Requests\StoreBusinessImagesRequest;
-use App\Http\Requests\UpdateBusinessImagesRequest;
+use App\Services\Implementation\BusinessImageService;
+use Illuminate\Http\JsonResponse;
 
 class BusinessImagesController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param BusinessImages $model
+     * @param BusinessImageService $businessImageService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(BusinessImages $model, public readonly BusinessImageService $businessImageService,
+                                public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'businessImage';
+        parent::__construct($model, $this->businessImageService, $customResponse, $authParameter,
+            BusinessImageCollection::class, BusinessImageResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreBusinessImagesRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreBusinessImagesRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreBusinessImagesRequest $request)
+    public function store(StoreBusinessImagesRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\BusinessImages  $businessImages
-     * @return \Illuminate\Http\Response
+     * @param BusinessImages $businessImage
+     * @return JsonResponse
      */
-    public function show(BusinessImages $businessImages)
+    public function show(BusinessImages $businessImage): JsonResponse
     {
-        //
+        return $this->showHelper($businessImage);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\BusinessImages  $businessImages
-     * @return \Illuminate\Http\Response
+     * @param BusinessImages $businessImage
+     * @return JsonResponse
      */
-    public function edit(BusinessImages $businessImages)
+    public function destroy(BusinessImages $businessImage): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateBusinessImagesRequest  $request
-     * @param  \App\Models\BusinessImages  $businessImages
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateBusinessImagesRequest $request, BusinessImages $businessImages)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\BusinessImages  $businessImages
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(BusinessImages $businessImages)
-    {
-        //
+        return $this->destroyHelper($businessImage);
     }
 }

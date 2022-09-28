@@ -2,85 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Tag\TagCollection;
+use App\Http\Resources\Tag\TagResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\Tag;
 use App\Http\Requests\StoreTagRequest;
 use App\Http\Requests\UpdateTagRequest;
+use App\Services\Implementation\TagService;
+use Illuminate\Http\JsonResponse;
 
 class TagController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Tag $model
+     * @param TagService $tagService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(Tag $model, public readonly TagService $tagService, public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'tag';
+        parent::__construct($model, $this->tagService, $customResponse, $authParameter,
+            TagCollection::class, TagResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreTagRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreTagRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreTagRequest $request)
+    public function store(StoreTagRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Tag  $tag
-     * @return \Illuminate\Http\Response
+     * @param Tag $tag
+     * @return JsonResponse
      */
-    public function show(Tag $tag)
+    public function show(Tag $tag): JsonResponse
     {
-        //
+        return $this->showHelper($tag);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Tag  $tag
-     * @return \Illuminate\Http\Response
+     * @param Tag $tag
+     * @param UpdateTagRequest $request
+     * @return JsonResponse
      */
-    public function edit(Tag $tag)
+    public function update(Tag $tag, UpdateTagRequest $request): JsonResponse
     {
-        //
+        return $this->updateHelper($tag, $request);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateTagRequest  $request
-     * @param  \App\Models\Tag  $tag
-     * @return \Illuminate\Http\Response
+     * @param Tag $tag
+     * @return JsonResponse
      */
-    public function update(UpdateTagRequest $request, Tag $tag)
+    public function destroy(Tag $tag): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Tag  $tag
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Tag $tag)
-    {
-        //
+        return $this->destroyHelper($tag);
     }
 }

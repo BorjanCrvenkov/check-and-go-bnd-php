@@ -2,85 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Table\TableCollection;
+use App\Http\Resources\Table\TableResource;
+use App\Http\Responses\CustomResponse;
 use App\Models\Table;
 use App\Http\Requests\StoreTableRequest;
 use App\Http\Requests\UpdateTableRequest;
+use App\Services\Implementation\TableService;
+use Illuminate\Http\JsonResponse;
 
 class TableController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Table $model
+     * @param TableService $tableService
+     * @param CustomResponse $customResponse
      */
-    public function index()
+    public function __construct(Table $model, public readonly TableService $tableService, public CustomResponse $customResponse)
     {
-        //
+        $authParameter = 'table';
+        parent::__construct($model, $this->tableService, $customResponse, $authParameter,
+            TableCollection::class, TableResource::class);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return $this->indexHelper();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreTableRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreTableRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreTableRequest $request)
+    public function store(StoreTableRequest $request): JsonResponse
     {
-        //
+        return $this->storeHelper($request);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Table  $table
-     * @return \Illuminate\Http\Response
+     * @param Table $table
+     * @return JsonResponse
      */
-    public function show(Table $table)
+    public function show(Table $table): JsonResponse
     {
-        //
+        return $this->showHelper($table);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Table  $table
-     * @return \Illuminate\Http\Response
+     * @param Table $table
+     * @param UpdateTableRequest $request
+     * @return JsonResponse
      */
-    public function edit(Table $table)
+    public function update(Table $table, UpdateTableRequest $request): JsonResponse
     {
-        //
+        return $this->updateHelper($table, $request);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateTableRequest  $request
-     * @param  \App\Models\Table  $table
-     * @return \Illuminate\Http\Response
+     * @param Table $table
+     * @return JsonResponse
      */
-    public function update(UpdateTableRequest $request, Table $table)
+    public function destroy(Table $table): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Table  $table
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Table $table)
-    {
-        //
+        return $this->destroyHelper($table);
     }
 }

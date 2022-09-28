@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 class StoreUserFavouriteBusinessRequest extends FormRequest
 {
@@ -11,9 +12,9 @@ class StoreUserFavouriteBusinessRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +22,11 @@ class StoreUserFavouriteBusinessRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['user_id' => "string", 'business_id' => "string"])] public function rules(): array
     {
         return [
-            //
+            'user_id'     => 'required|integer|exists:users,id',
+            'business_id' => 'required|integer|exists:businesses,id',
         ];
     }
 }
