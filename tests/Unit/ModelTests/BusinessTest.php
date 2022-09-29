@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace ModelTests;
 
 use App\Models\Business;
 use App\Models\BusinessEmployee;
@@ -11,6 +11,7 @@ use App\Models\BusinessTag;
 use App\Models\BusinessWorkingHours;
 use App\Models\Event;
 use App\Models\Menu;
+use App\Models\Review;
 use App\Models\Table;
 use App\Models\User;
 use App\Models\UserReviewBusiness;
@@ -18,21 +19,6 @@ use App\Models\UserTableReservation;
 
 class BusinessTest extends BaseUnitRelationsTest
 {
-
-    /**
-     * @return void
-     */
-    public function testOwnerRelation(): void
-    {
-        $user = User::factory()->business()->create();
-
-        $business = Business::factory()->create([
-            'owner_id' => $user->getKey(),
-        ]);
-
-        $this->assertSame($user->getKey(), $business->owner->getKey());
-    }
-
     /**
      * @return void
      */
@@ -93,7 +79,21 @@ class BusinessTest extends BaseUnitRelationsTest
     /**
      * @return void
      */
-    public function testReviewsRelation(): void
+    public function testOwnerRelation(): void
+    {
+        $user = User::factory()->business()->create();
+
+        $business = Business::factory()->create([
+            'owner_id' => $user->getKey(),
+        ]);
+
+        $this->assertSame($user->getKey(), $business->owner->getKey());
+    }
+
+    /**
+     * @return void
+     */
+    public function testReviewBusinessesRelation(): void
     {
         $business = Business::factory()->create();
 
@@ -101,7 +101,22 @@ class BusinessTest extends BaseUnitRelationsTest
             'business_id' => $business->getKey(),
         ])->modelKeys();
 
-        $this->assertSame($expectedIds, $business->reviews->modelKeys());
+        $this->assertSame($expectedIds, $business->userReviewBusiness->modelKeys());
+    }
+
+    public function testReviewsFunction()
+    {
+        $business = Business::factory()->create();
+        $reviewIds = Review::factory(5)->create()->modelKeys();
+
+        foreach ($reviewIds as $reviewId) {
+            UserReviewBusiness::factory()->create([
+                'business_id' => $business->getKey(),
+                'review_id'   => $reviewId
+            ]);
+        }
+
+        $this->assertSame($reviewIds, $business->reviews()->modelKeys());
     }
 
     /**
@@ -187,7 +202,7 @@ class BusinessTest extends BaseUnitRelationsTest
     /**
      * @return void
      */
-    public function testReservationsRelation(): void
+    public function testReservationsFunction(): void
     {
         $business = Business::factory()->create();
 
@@ -202,8 +217,8 @@ class BusinessTest extends BaseUnitRelationsTest
             ]);
         }
 
-        $reservationIds= [];
-        foreach ($userTableReservations as $item){
+        $reservationIds = [];
+        foreach ($userTableReservations as $item) {
             $reservationIds[] = $item->reservation->getKey();
         }
 

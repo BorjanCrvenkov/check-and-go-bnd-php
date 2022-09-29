@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace ModelTests;
 
 use App\Models\Business;
 use App\Models\BusinessWorkingHours;

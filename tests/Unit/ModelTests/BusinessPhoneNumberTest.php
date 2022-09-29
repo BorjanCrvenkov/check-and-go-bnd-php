@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Unit;
+namespace ModelTests;
 
 use App\Models\Business;
-use App\Models\BusinessSocialMediaLink;
+use App\Models\BusinessPhoneNumber;
 
-class BusinessSocialMediaTest extends BaseUnitRelationsTest
+class BusinessPhoneNumberTest extends BaseUnitRelationsTest
 {
     /**
      * @return void
@@ -14,7 +14,7 @@ class BusinessSocialMediaTest extends BaseUnitRelationsTest
     {
         $business = Business::factory()->create();
 
-        $relation = BusinessSocialMediaLink::factory()->create([
+        $relation = BusinessPhoneNumber::factory()->create([
             'business_id' => $business,
         ]);
 

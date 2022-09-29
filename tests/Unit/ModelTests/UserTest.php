@@ -1,11 +1,13 @@
 <?php
 
-namespace Tests\Unit;
+namespace ModelTests;
 
+use App\Models\Business;
 use App\Models\Image;
 use App\Models\PaymentPlan;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserStrike;
 
 class UserTest extends BaseUnitRelationsTest
 {
@@ -49,5 +51,29 @@ class UserTest extends BaseUnitRelationsTest
         ]);
 
         $this->assertSame($paymentPlan->getKey(), $user->paymentPlan->getKey());
+    }
+
+    /**
+     * @return void
+     */
+    public function testUserStrikeRelation(): void
+    {
+        $user = User::factory()->customer()->create();
+
+        $expectedIds = UserStrike::factory(5)->create([
+            'user_id' => $user->getKey(),
+        ])->modelKeys();
+
+        $this->assertSame($expectedIds, $user->strikes->modelKeys());
+    }
+
+    public function testOwnsBusinessesRelation(){
+        $user = User::factory()->business()->create();
+
+        $expectedIds = Business::factory(2)->create([
+            'owner_id' => $user->getKey(),
+        ])->modelKeys();
+
+        $this->assertSame($expectedIds, $user->ownsBusinesses->modelKeys());
     }
 }

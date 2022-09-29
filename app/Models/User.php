@@ -34,6 +34,15 @@ class User extends BaseUserModel
     /**
      * @return bool
      */
+    public function getIsEmployeeAttribute(): bool
+    {
+        return $this->role->name === Role::EMPLOYEE;
+    }
+
+
+    /**
+     * @return bool
+     */
     public function getIsCustomerAttribute(): bool
     {
         return $this->role->name === Role::CUSTOMER;
@@ -77,7 +86,7 @@ class User extends BaseUserModel
      */
     public function strikes(): hasMany
     {
-        return $this->hasMany(Strike::class, 'user_id');
+        return $this->hasMany(UserStrike::class, 'user_id');
     }
 
     /**
@@ -110,5 +119,13 @@ class User extends BaseUserModel
     public function phoneNumbers(): hasMany
     {
         return $this->hasMany(UserPhoneNumber::class, 'user_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function ownsBusinesses(): HasMany
+    {
+        return $this->hasMany(Business::class, 'owner_id');
     }
 }

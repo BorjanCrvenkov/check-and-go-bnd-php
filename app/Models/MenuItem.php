@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class MenuItem extends BaseModel
@@ -24,10 +25,10 @@ class MenuItem extends BaseModel
     }
 
     /**
-     * @return HasOne
+     * @return HasMany
      */
-    public function tag(): HasOne
+    public function tags(): HasMany
     {
-        return $this->hasOne(MenuItemTag::class, 'id');
+        return $this->hasMany(MenuItemTag::class, 'menu_item_id');
     }
 }

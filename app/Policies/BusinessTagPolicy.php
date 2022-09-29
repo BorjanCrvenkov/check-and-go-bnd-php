@@ -5,90 +5,68 @@ namespace App\Policies;
 use App\Models\BusinessTag;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class BusinessTagPolicy
 {
     use HandlesAuthorization;
 
     /**
+     * @param User $user
+     * @return bool|null
+     */
+    public function before(User $user): ?bool
+    {
+        if ($user->is_admin) {
+            return true;
+        }
+
+        return null;
+    }
+
+    /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\BusinessTag  $businessTag
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param BusinessTag $businessTag
+     * @return bool
      */
-    public function view(User $user, BusinessTag $businessTag)
+    public function view(User $user, BusinessTag $businessTag): bool
     {
-        //
+        return true;
     }
 
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): Response|bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\BusinessTag  $businessTag
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function update(User $user, BusinessTag $businessTag)
-    {
-        //
+        return $user->is_business;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\BusinessTag  $businessTag
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param BusinessTag $businessTag
+     * @return bool
      */
-    public function delete(User $user, BusinessTag $businessTag)
+    public function delete(User $user, BusinessTag $businessTag): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\BusinessTag  $businessTag
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, BusinessTag $businessTag)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\BusinessTag  $businessTag
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, BusinessTag $businessTag)
-    {
-        //
+        return $businessTag->business->owner_id === $user->getKey();
     }
 }
