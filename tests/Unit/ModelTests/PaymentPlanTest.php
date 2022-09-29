@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace ModelTests;
 
 use App\Models\PaymentFrequency;
 use App\Models\PaymentPlan;

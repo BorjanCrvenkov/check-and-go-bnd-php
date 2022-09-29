@@ -21,4 +21,12 @@ class Strike extends BaseModel
     {
         return $this->hasOne(Review::class, 'id', 'review_id');
     }
+
+    /**
+     * @return HasOne
+     */
+    public function userStrike(): HasOne
+    {
+        return $this->hasOne(UserStrike::class, 'strike_id');
+    }
 }

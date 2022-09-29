@@ -5,90 +5,80 @@ namespace App\Policies;
 use App\Models\BusinessSocialMediaLink;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class BusinessSocialMediaLinkPolicy
 {
     use HandlesAuthorization;
 
     /**
+     * @param User $user
+     * @return bool|null
+     */
+    public function before(User $user): ?bool
+    {
+        if ($user->is_admin) {
+            return true;
+        }
+
+        return null;
+    }
+
+    /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\BusinessSocialMediaLink  $businessSocialMediaLink
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param BusinessSocialMediaLink $businessSocialMediaLink
+     * @return bool
      */
-    public function view(User $user, BusinessSocialMediaLink $businessSocialMediaLink)
+    public function view(User $user, BusinessSocialMediaLink $businessSocialMediaLink): bool
     {
-        //
+        return true;
     }
 
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): Response|bool
     {
-        //
+        return $user->is_business;
     }
 
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\BusinessSocialMediaLink  $businessSocialMediaLink
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param BusinessSocialMediaLink $businessSocialMediaLink
+     * @return bool
      */
-    public function update(User $user, BusinessSocialMediaLink $businessSocialMediaLink)
+    public function update(User $user, BusinessSocialMediaLink $businessSocialMediaLink): bool
     {
-        //
+        return $businessSocialMediaLink->business->owner_id === $user->getKey();
     }
 
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\BusinessSocialMediaLink  $businessSocialMediaLink
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param BusinessSocialMediaLink $businessSocialMediaLink
+     * @return bool
      */
-    public function delete(User $user, BusinessSocialMediaLink $businessSocialMediaLink)
+    public function delete(User $user, BusinessSocialMediaLink $businessSocialMediaLink): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\BusinessSocialMediaLink  $businessSocialMediaLink
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, BusinessSocialMediaLink $businessSocialMediaLink)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\BusinessSocialMediaLink  $businessSocialMediaLink
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, BusinessSocialMediaLink $businessSocialMediaLink)
-    {
-        //
+        return $businessSocialMediaLink->business->owner_id === $user->getKey();
     }
 }

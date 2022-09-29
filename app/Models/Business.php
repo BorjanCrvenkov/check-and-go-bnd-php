@@ -8,14 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Business extends BaseModel
 {
     /**
-     * @return BelongsTo
-     */
-    public function owner(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'owner_id');
-    }
-
-    /**
      * @return HasMany
      */
     public function tags(): HasMany
@@ -48,11 +40,30 @@ class Business extends BaseModel
     }
 
     /**
+     * @return BelongsTo
+     */
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    /**
      * @return HasMany
      */
-    public function reviews(): HasMany
+    public function userReviewBusiness(): HasMany
     {
         return $this->hasMany(UserReviewBusiness::class, 'business_id');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function reviews(): mixed
+    {
+        return Business::where('businesses.id', '=', $this->getKey())
+            ->join('user_review_businesses', 'businesses.id', '=', 'user_review_businesses.business_id')
+            ->join('reviews', 'user_review_businesses.review_id', '=', 'reviews.id')
+            ->select('reviews.*')->get();
     }
 
     /**

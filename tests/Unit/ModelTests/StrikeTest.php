@@ -1,10 +1,11 @@
 <?php
 
-namespace Tests\Unit;
+namespace ModelTests;
 
 use App\Models\Reservation;
 use App\Models\Review;
 use App\Models\Strike;
+use App\Models\UserStrike;
 
 class StrikeTest extends BaseUnitRelationsTest
 {
@@ -34,5 +35,16 @@ class StrikeTest extends BaseUnitRelationsTest
         ]);
 
         $this->assertSame($reservation->getKey(), $strike->reservation->getKey());
+    }
+
+    public function testUserStrikeRelation()
+    {
+        $strike = Strike::factory()->create();
+
+        $expectedId = UserStrike::factory()->create([
+            'strike_id' => $strike->getKey(),
+        ])->getKey();
+
+        $this->assertSame($expectedId, $strike->userStrike->getKey());
     }
 }

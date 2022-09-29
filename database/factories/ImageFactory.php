@@ -15,9 +15,10 @@ class ImageFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    #[ArrayShape(['link' => "mixed", 'extension' => "string"])] public function definition(): array
+    #[ArrayShape(['name' => "string", 'link' => "mixed", 'extension' => "string"])] public function definition(): array
     {
         return [
+            'name'      => $this->faker->unique()->word() . $this->faker->numberBetween(0, 100000),
             'link'      => $this->faker->filePath(),
             'extension' => '.jpg',
         ];

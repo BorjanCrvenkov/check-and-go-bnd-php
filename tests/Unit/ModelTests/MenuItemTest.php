@@ -1,10 +1,11 @@
 <?php
 
-namespace Tests\Unit;
+namespace ModelTests;
 
 use App\Models\Image;
 use App\Models\Menu;
 use App\Models\MenuItem;
+use App\Models\MenuItemTag;
 
 class MenuItemTest extends BaseUnitRelationsTest
 {
@@ -34,5 +35,19 @@ class MenuItemTest extends BaseUnitRelationsTest
         ]);
 
         $this->assertSame($image->getKey(), $menuItem->image->getKey());
+    }
+
+    /**
+     * @return void
+     */
+    public function testTagRelation(): void
+    {
+        $menuItem = MenuItem::factory()->create();
+
+        $expectedIds = MenuItemTag::factory(5)->create([
+            'menu_item_id' => $menuItem->getKey(),
+        ])->modelKeys();
+
+        $this->assertSame($expectedIds, $menuItem->tags->modelKeys());
     }
 }

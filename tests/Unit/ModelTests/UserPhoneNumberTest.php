@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace ModelTests;
 
 use App\Models\User;
 use App\Models\UserPhoneNumber;

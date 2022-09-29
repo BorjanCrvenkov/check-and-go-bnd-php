@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace ModelTests;
 
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

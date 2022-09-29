@@ -11,84 +11,73 @@ class UserStrikePolicy
     use HandlesAuthorization;
 
     /**
+     * @param User $user
+     * @return bool|null
+     */
+    public function before(User $user): ?bool
+    {
+        if ($user->is_admin) {
+            return true;
+        }
+
+        return null;
+    }
+
+    /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\UserStrike  $userStrike
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param UserStrike $userStrike
+     * @return bool
      */
-    public function view(User $user, UserStrike $userStrike)
+    public function view(User $user, UserStrike $userStrike): bool
     {
-        //
+        return $userStrike->user_id === $user->getKey();
     }
 
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return bool|false
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
-        //
+        return false;
     }
 
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\UserStrike  $userStrike
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param UserStrike $userStrike
+     * @return bool|false
      */
-    public function update(User $user, UserStrike $userStrike)
+    public function update(User $user, UserStrike $userStrike): bool
     {
-        //
+        return false;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\UserStrike  $userStrike
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param UserStrike $userStrike
+     * @return bool|false
      */
-    public function delete(User $user, UserStrike $userStrike)
+    public function delete(User $user, UserStrike $userStrike): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\UserStrike  $userStrike
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, UserStrike $userStrike)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\UserStrike  $userStrike
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, UserStrike $userStrike)
-    {
-        //
+        return false;
     }
 }
